@@ -1,17 +1,15 @@
-function wait(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+async function getUsers() {
+  try {
+    console.log("Kullanıcı bilgileri çekiliyor...");
+
+    const res = await fetch("https://jsonplaceholder.typicode.com/users");
+    const data = await res.json();
+
+    console.log("Gelen kullanıcılar:");
+    console.log(data);
+  } catch (error) {
+    console.log("Bir hata oluştu", error);
+  }
 }
 
-async function process() {
-  console.log("1) Başladı");
-
-  await wait(1000);
-  console.log("2) 1 saniye bekledikten sonra");
-
-  await wait(2000);
-  console.log("3) 2 Saniye bekledikten sonra ");
-
-  console.log("4) Bitti");
-}
-
-process();
+getUsers();
