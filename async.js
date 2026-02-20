@@ -1,15 +1,26 @@
-async function getUsers() {
+async function getData() {
+  console.log("1) İstekler başlatılıyor...");
+
   try {
-    console.log("Kullanıcı bilgileri çekiliyor...");
+    const [userResponse, postResponse] = await Promise.all([
+      fetch("https://jsonplaceholder.typicode.com/users/1"),
+      fetch("https://jsonplaceholder.typicode.com/posts/1"),
+    ]);
 
-    const res = await fetch("https://jsonplaceholder.typicode.com/users");
-    const data = await res.json();
+    if (!userResponse.ok || !postResponse.ok) {
+      throw new Error("API isteklerinden biri başarısız oldu");
+    }
 
-    console.log("Gelen kullanıcılar:");
-    console.log(data);
-  } catch (error) {
-    console.log("Bir hata oluştu", error);
+    const user = await userResponse.json();
+    const post = await postResponse.json();
+
+    console.log("2) Kullanıcı verisi:", user);
+    console.log("3) Gönderi verisi:", post);
+  } catch (err) {
+    console.log("4) Hata:", err.message);
   }
+
+  console.log("5) İşlem tamamlandı");
 }
 
-getUsers();
+getData();
